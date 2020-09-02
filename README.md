@@ -1,4 +1,4 @@
-# LoLMatchHistoryExporter
+# lolexport
 
 Exports League of Legends Match History metadata using the RiotGames API
 

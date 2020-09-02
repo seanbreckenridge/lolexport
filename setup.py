@@ -8,7 +8,7 @@ with io.open("README.md", encoding="utf-8") as fo:
     long_description = fo.read()
 
 setup(
-    name="LoLMatchHistoryExporter",
+    name="lolexport",
     version="0.1.0",
     url="https://github.com/seanbreckenridge/lolexport",
     author="Sean Breckenridge",
