@@ -80,7 +80,7 @@ def get_datadog_info(region: str) -> DataDog:
 def _parse_participant(d: Dict, dd: DataDog):
     s = d["stats"]
     return {
-        "chapmion": dd.champions[d["championId"]],
+        "champion": dd.champions[d["championId"]],
         **pick_keys(d, ["spellId1", "spellId2", "teamId", "participantId"]),
         **pick_keys(
             s,
