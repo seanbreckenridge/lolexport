@@ -84,7 +84,9 @@ To install with pip, run:
 
 ### Parsing
 
-I also left the code I use to parse the info I want from here in `lolexport.parse`. Use in a python file like:
+I also left the code I use to parse the info I want from here in `lolexport.parse`. The export above saves all the data, but I'm not interested in tons of the specifics, so `lolexport.parse` is what I'd use, you're free to parse the data however.
+
+To run it, see [`scripts/call_parse_json.py`](./scripts/call_parse_json.py)
 
 ```
 import pathlib, json
