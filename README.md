@@ -58,3 +58,19 @@ Requires at least `python3.6`
 To install with pip, run:
 
     pip install 'git+https://github.com/seanbreckenridge/lolexport'
+
+### Parsing
+
+I also left the code I use to parse the info I want from here in `lolexport.parse`. Use in a python file like:
+
+```
+import pathlib, json
+import lolexport.parse
+
+parsed_info = list(lolexport.parse.parse_export(pathlib.Path('./data/league_of_legends.json')))
+with open('parsed_info.json', 'w') as jf:
+    json.dump(parsed_info, jf)
+```
+
+That removes some of the fields I'm not interested in, and replaces champion/map/queue IDs with their names.
+
