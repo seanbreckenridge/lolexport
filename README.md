@@ -8,9 +8,10 @@ I don't play league of legends that often anymore, this is to export my entire m
 >>> from my.games.league import history
 >>> import pprint, collections
 >>> league_game_history = list(history())
+# whats my winrate?
 >>> collections.Counter(map(lambda g: g.won, league_game_history))
 Counter({True: 265, False: 241})
->>> collections.Counter(map(lambda g: g.champion, league_game_history)).most_common(10)
+# most common champions?
 >>> pprint.pprint(collections.Counter(map(lambda g: g.champion_name, league_game_history)).most_common(10))
 [('Lee Sin', 114),
  ('Yasuo', 29),
@@ -23,6 +24,8 @@ Counter({True: 265, False: 241})
  ('Rengar', 11),
  ('Bard', 11)]
 ```
+
+Though, more interesting to me is that this tells me when/how long every match was, which means I can graph my activity.
 
 I'm not sure how far back the match history goes. I've been playing on and off since 2015 but the history only goes back to 2018. May be a ~2/3 year limit, or that might just be when this API Version was supported/standardized.
 
