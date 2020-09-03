@@ -2,7 +2,27 @@
 
 Exports League of Legends Match History metadata using the RiotGames API
 
-I don't play league of legends that often anymore, this is to export my entire match history so I can do some analysis as part of [`HPI`](https://github.com/seanbreckenridge/HPI).
+I don't play league of legends that often anymore, this is to export my entire match history so I can do some analysis as part of [`HPI`](https://github.com/seanbreckenridge/HPI). Like:
+
+```
+>>> from my.games.league import history
+>>> import pprint, collections
+>>> league_game_history = list(history())
+>>> collections.Counter(map(lambda g: g.won, league_game_history))
+Counter({True: 265, False: 241})
+>>> collections.Counter(map(lambda g: g.champion, league_game_history)).most_common(10)
+>>> pprint.pprint(collections.Counter(map(lambda g: g.champion_name, league_game_history)).most_common(10))
+[('Lee Sin', 114),
+ ('Yasuo', 29),
+ ('Master Yi', 25),
+ ('Riven', 20),
+ ('Gragas', 19),
+ ('Thresh', 13),
+ ('Lux', 12),
+ ('Twisted Fate', 12),
+ ('Rengar', 11),
+ ('Bard', 11)]
+```
 
 I'm not sure how far back the match history goes. I've been playing on and off since 2015 but the history only goes back to 2018. May be a ~2/3 year limit, or that might just be when this API Version was supported/standardized.
 
