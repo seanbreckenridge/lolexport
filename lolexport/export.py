@@ -9,10 +9,10 @@ from .log import logger
 # (Pdb) resp['matches'][0]
 # {'platformId': 'NA1', 'gameId': 3517403685, 'champion': 33, 'queue': 1300, 'season': 13, 'timestamp': 1596305310886, 'role': 'DUO_SUPPORT', 'lane': 'NONE'}
 def get_matches(lol_watcher, region: str, encrypted_account_id: str):
-    recieved_entries: bool = True
+    received_entries: bool = True
     beginIndex: int = 0
     entries: List[Dict] = []
-    while recieved_entries:
+    while received_entries:
         resp = lol_watcher.match.matchlist_by_account(
             region=region,
             encrypted_account_id=encrypted_account_id,
@@ -23,7 +23,7 @@ def get_matches(lol_watcher, region: str, encrypted_account_id: str):
         logger.debug(f"Got {len(resp['matches'])} matches from offset {beginIndex}...")
         for d in resp["matches"]:
             entries.append(d)
-        recieved_entries = len(resp["matches"]) > 0
+        received_entries = len(resp["matches"]) > 0
         sleep(1)
     return entries
 
