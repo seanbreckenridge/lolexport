@@ -4,7 +4,7 @@ Exports League of Legends Match History metadata using the RiotGames API
 
 I don't play league of legends that often anymore, this is to export my entire match history so I can do some analysis as part of [`HPI`](https://github.com/seanbreckenridge/HPI). Like:
 
-```
+```python
 >>> from my.games.league import history
 >>> import pprint, collections
 >>> league_game_history = list(history())
