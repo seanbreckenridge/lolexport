@@ -33,26 +33,41 @@ Get an API key from [here](https://developer.riotgames.com/) and put it in a JSO
 
 Combines the results from <https://developer.riotgames.com/apis#match-v4/GET_getMatchlist> and <https://developer.riotgames.com/apis#match-v4/GET_getMatch>, and dumps all the info to a JSON file.
 
-See [riotwatcher docs](https://github.com/pseudonym117/Riot-Watcher) for some data_dragon (riot metadata) helper functions that may be useful, to parse the resulting JSON file.
+## Installation
+
+Requires at least `python3.6`
+
+To install with pip, run:
+
+    pip install 'git+https://github.com/seanbreckenridge/lolexport'
+
+This is accessible as `lolexport` and using `python3 -m lolexport`
+
+---
+
+## Usage
+
+Theres 2 commands here, `export` (which does the majority of the work, exporting info from your matches to a JSON file) and then `parse` which takes that as input and extracts (what I consider to be) useful data from it.
 
 ### Export
 
 ```
-Usage: lolexport [OPTIONS]
+python3 -m lolexport export --help
+Usage: lolexport export [OPTIONS]
 
   Download all of your match history
 
 Options:
-  --to PATH            JSON file to dump export to [required]
-  --api-key-file PATH  json file with api key [required]
-  --username TEXT      league of legends summoner name [required]
-  --region TEXT        league of legends region name [required]
-  --help               Show this message and exit.
+  -t, --to PATH            JSON file to dump export to  [required]
+  -k, --api-key-file PATH  json file with api key  [required]
+  -u, --username TEXT      league of legends summoner name  [required]
+  -r, --region TEXT        league of legends region name  [required]
+  --help                   Show this message and exit.
 
 ```
 
 ```
-$ lolexport --to data.json --api-key-file ./api_key_example.json --username summonerName --region na1
+$ python3 -m lolexport --to data.json --api-key-file ./api_key_example.json --username yourSummonnerName --region na1
 [D 200901 21:27:41 export:32] Getting encrypted account id...
 [D 200901 21:27:43 export:17] Got 100 matches from offset 100...
 [D 200901 21:27:44 export:17] Got 100 matches from offset 200...
@@ -74,28 +89,26 @@ $ du -h data.json
 
 See [here](https://developer.riotgames.com/docs/lol) for region codes.
 
-## Installation
-
-Requires at least `python3.6`
-
-To install with pip, run:
-
-    pip install 'git+https://github.com/seanbreckenridge/lolexport'
-
 ### Parsing
 
-I also left the code I use to parse the info I want from here in `lolexport.parse`. The export above saves all the data, but I'm not interested in tons of the specifics, so `lolexport.parse` is what I'd use, you're free to parse the data however.
-
-To run it, see [`scripts/call_parse_json.py`](./scripts/call_parse_json.py)
+The export above saves all the data, but I'm not interested in tons of the specifics, so `lolexport.parse` is what I'd use, you're free to parse the data however.
 
 ```
-import pathlib, json
-import lolexport.parse
+python3 -m lolexport parse --help
+Usage: lolexport parse [OPTIONS]
 
-parsed_info = list(lolexport.parse.parse_export(pathlib.Path('./data/league_of_legends.json')))
-with open('parsed_info.json', 'w') as jf:
-    json.dump(parsed_info, jf)
+  Parses the exported data to attach additional metadata
+
+  Prints results to STDOUT
+
+Options:
+  -f, --from PATH  exported JSON file to process  [required]
+  --help           Show this message and exit.
 ```
+
+It prints the parsed data to STDOUT, so you can do:
+
+`python3 -m lolexport parse --from ./data.json > parsed.json`
 
 That removes some of the fields I'm not interested in, and replaces champion/map/queue IDs with their names.
 
