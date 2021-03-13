@@ -39,7 +39,7 @@ Requires at least `python3.6`
 
 To install with pip, run:
 
-    pip install 'git+https://github.com/seanbreckenridge/lolexport'
+    pip install lolexport
 
 This is accessible as `lolexport` and using `python3 -m lolexport`
 
