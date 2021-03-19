@@ -1,19 +1,20 @@
 from time import sleep
-from typing import Dict, List, Any
+from typing import List
 
 from riotwatcher import LolWatcher, ApiError  # type: ignore[import]
 import backoff  # type: ignore[import]
 
 from .log import logger
+from .common import Json
 
 # (Pdb) resp['matches'][0]
 # {'platformId': 'NA1', 'gameId': 3517403685, 'champion': 33, 'queue': 1300, 'season': 13, 'timestamp': 1596305310886, 'role': 'DUO_SUPPORT', 'lane': 'NONE'}
 def get_matches(
     lol_watcher: LolWatcher, region: str, encrypted_account_id: str
-) -> List[Dict[str, Any]]:
+) -> List[Json]:
     received_entries: bool = True
     beginIndex: int = 0
-    entries: List[Dict[str, Any]] = []
+    entries: List[Json] = []
     while received_entries:
         resp = lol_watcher.match.matchlist_by_account(
             region=region,
@@ -33,13 +34,13 @@ def get_matches(
 @backoff.on_exception(backoff.expo, ApiError)
 def get_match_data(
     lol_watcher: LolWatcher, region: str, match_id: int
-) -> Dict[str, Any]:
+) -> Json:
     sleep(1)
-    data: Dict[str, Any] = lol_watcher.match.by_id(region=region, match_id=match_id)
+    data: Json = lol_watcher.match.by_id(region=region, match_id=match_id)
     return data
 
 
-def export_data(api_key: str, summoner_name: str, region: str) -> List[Dict[str, Any]]:
+def export_data(api_key: str, summoner_name: str, region: str) -> List[Json]:
     # get my info
     logger.debug("Getting encrypted account id...")
     lol_watcher = LolWatcher(api_key)
@@ -47,7 +48,7 @@ def export_data(api_key: str, summoner_name: str, region: str) -> List[Dict[str,
     encrypted_account_id = me["accountId"]
 
     # get all matches
-    matches: List[Dict[str, Any]] = get_matches(
+    matches: List[Json] = get_matches(
         lol_watcher, region, encrypted_account_id
     )
 

@@ -16,9 +16,10 @@ import requests
 from riotwatcher import LolWatcher  # type: ignore[import]
 
 from .log import logger
+from .common import Json
 
 
-def pick_keys(d: Dict[str, Any], wanted_keys: List[str]) -> Dict[str, Any]:
+def pick_keys(d: Json, wanted_keys: List[str]) -> Json:
     return {k: v for k, v in d.items() if k in wanted_keys}
 
 
@@ -77,7 +78,7 @@ def get_datadog_info(region: str) -> DataDog:
     )
 
 
-def _parse_participant(d: Dict, dd: DataDog) -> Dict[str, Any]:
+def _parse_participant(d: Json, dd: DataDog) -> Json:
     s = d["stats"]
     return {
         "champion": dd.champions[d["championId"]],
@@ -126,7 +127,7 @@ def _parse_participant(d: Dict, dd: DataDog) -> Dict[str, Any]:
     }
 
 
-def _parse_game_data(d: Dict[str, Any], dd: DataDog) -> Dict[str, Any]:
+def _parse_game_data(d: Json, dd: DataDog) -> Json:
     """
     Parses stuff I think is interesting/useful from each game
     """
@@ -157,7 +158,7 @@ def _parse_game_data(d: Dict[str, Any], dd: DataDog) -> Dict[str, Any]:
     }
 
 
-def parse_export(path: Path, region: str = "na1") -> Iterator[Dict]:
+def parse_export(path: Path, region: str = "na1") -> Iterator[Json]:
     assert path.exists()
 
     # get datadog (league metadata)
