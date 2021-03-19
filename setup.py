@@ -7,9 +7,10 @@ requirements = ["click>=7.0", "logzero", "riotwatcher", "backoff"]
 with io.open("README.md", encoding="utf-8") as fo:
     long_description = fo.read()
 
+pkg = "lolexport"
 setup(
-    name="lolexport",
-    version="0.1.0",
+    name=pkg,
+    version="0.1.1",
     url="https://github.com/seanbreckenridge/lolexport",
     author="Sean Breckenridge",
     author_email="seanbrecke@gmail.com",
@@ -19,9 +20,10 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="MIT",
-    packages=find_packages(include=["lolexport"]),
+    packages=find_packages(include=[pkg]),
+    package_data={pkg: ["py.typed"]},
     install_requires=requirements,
-    keywords="",
+    keywords="api",
     entry_points={"console_scripts": ["lolexport = lolexport.cli:main"]},
     classifiers=[
         "License :: OSI Approved :: MIT License",

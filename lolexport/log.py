@@ -1,7 +1,7 @@
 from os import environ
 import logging
 
-from logzero import setup_logger
+from logzero import setup_logger  # type: ignore[import]
 
 # https://docs.python.org/3/library/logging.html#logging-levels
 loglevel: int = logging.DEBUG  # (10)

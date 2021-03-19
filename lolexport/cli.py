@@ -26,7 +26,7 @@ def main():
 )
 @click.option("--username", "-u", required=True, help="league of legends summoner name")
 @click.option("--region", "-r", required=True, help="league of legends region name")
-def export(to, api_key_file, username, region) -> None:
+def export(to: str, api_key_file: str, username: str, region: str) -> None:
     """
     Download all of your match history
     """
@@ -46,9 +46,15 @@ def export(to, api_key_file, username, region) -> None:
         json.dump(data, dump_f)
     logger.info(f"Wrote to {to} successfully")
 
+
 @main.command()
 @click.option(
-    "--from", "-f", "from_", type=click.Path(exists=True), required=True, help="exported JSON file to process"
+    "--from",
+    "-f",
+    "from_",
+    type=click.Path(exists=True),
+    required=True,
+    help="exported JSON file to process",
 )
 def parse(from_: str) -> None:
     """
@@ -59,4 +65,3 @@ def parse(from_: str) -> None:
     export_file: Path = Path(from_)
     parsed_info = list(parse_export(export_file))
     click.echo(json.dumps(parsed_info))
-

@@ -1,11 +1,11 @@
-'''
+"""
 some code to parse though the export, extracting interesting info
 and replacing IDs with the corresponding data
 
 not exactly sure how the datadragon exports work, so I
 do this after I export, not sure if it'd break in the
 future if the IDs dont match
-'''
+"""
 
 import json
 from pathlib import Path
@@ -13,12 +13,12 @@ from functools import partial
 from typing import List, Dict, Any, NamedTuple, Iterator
 
 import requests
-from riotwatcher import LolWatcher
+from riotwatcher import LolWatcher  # type: ignore[import]
 
 from .log import logger
 
 
-def pick_keys(d: Dict, wanted_keys: List[str]):
+def pick_keys(d: Dict[str, Any], wanted_keys: List[str]) -> Dict[str, Any]:
     return {k: v for k, v in d.items() if k in wanted_keys}
 
 
@@ -77,7 +77,7 @@ def get_datadog_info(region: str) -> DataDog:
     )
 
 
-def _parse_participant(d: Dict, dd: DataDog):
+def _parse_participant(d: Dict, dd: DataDog) -> Dict[str, Any]:
     s = d["stats"]
     return {
         "champion": dd.champions[d["championId"]],
@@ -126,7 +126,7 @@ def _parse_participant(d: Dict, dd: DataDog):
     }
 
 
-def _parse_game_data(d: Dict, dd: DataDog):
+def _parse_game_data(d: Dict[str, Any], dd: DataDog) -> Dict[str, Any]:
     """
     Parses stuff I think is interesting/useful from each game
     """

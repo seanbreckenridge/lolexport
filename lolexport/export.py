@@ -1,17 +1,19 @@
 from time import sleep
-from typing import Dict, List
+from typing import Dict, List, Any
 
-from riotwatcher import LolWatcher, ApiError
-import backoff
+from riotwatcher import LolWatcher, ApiError  # type: ignore[import]
+import backoff  # type: ignore[import]
 
 from .log import logger
 
 # (Pdb) resp['matches'][0]
 # {'platformId': 'NA1', 'gameId': 3517403685, 'champion': 33, 'queue': 1300, 'season': 13, 'timestamp': 1596305310886, 'role': 'DUO_SUPPORT', 'lane': 'NONE'}
-def get_matches(lol_watcher, region: str, encrypted_account_id: str):
+def get_matches(
+    lol_watcher: LolWatcher, region: str, encrypted_account_id: str
+) -> List[Dict[str, Any]]:
     received_entries: bool = True
     beginIndex: int = 0
-    entries: List[Dict] = []
+    entries: List[Dict[str, Any]] = []
     while received_entries:
         resp = lol_watcher.match.matchlist_by_account(
             region=region,
@@ -29,12 +31,15 @@ def get_matches(lol_watcher, region: str, encrypted_account_id: str):
 
 
 @backoff.on_exception(backoff.expo, ApiError)
-def get_match_data(lol_watcher, region: str, match_id: int):
+def get_match_data(
+    lol_watcher: LolWatcher, region: str, match_id: int
+) -> Dict[str, Any]:
     sleep(1)
-    return lol_watcher.match.by_id(region=region, match_id=match_id)
+    data: Dict[str, Any] = lol_watcher.match.by_id(region=region, match_id=match_id)
+    return data
 
 
-def export_data(api_key: str, summoner_name: str, region: str) -> Dict:
+def export_data(api_key: str, summoner_name: str, region: str) -> List[Dict[str, Any]]:
     # get my info
     logger.debug("Getting encrypted account id...")
     lol_watcher = LolWatcher(api_key)
@@ -42,7 +47,9 @@ def export_data(api_key: str, summoner_name: str, region: str) -> Dict:
     encrypted_account_id = me["accountId"]
 
     # get all matches
-    matches: List[Dict] = get_matches(lol_watcher, region, encrypted_account_id)
+    matches: List[Dict[str, Any]] = get_matches(
+        lol_watcher, region, encrypted_account_id
+    )
 
     # attach lots of metadata to each match Dict response
     for i, m in enumerate(matches, 1):
