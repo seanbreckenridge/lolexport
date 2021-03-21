@@ -62,6 +62,5 @@ def parse(from_: str) -> None:
 
     Prints results to STDOUT
     """
-    export_file: Path = Path(from_)
-    parsed_info = list(parse_export(export_file))
+    parsed_info = list(parse_export(Path(from_)))
     click.echo(json.dumps(parsed_info))
