@@ -1,5 +1,7 @@
 tags*
 *.pdf
+*.json
+!api_key_example.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
