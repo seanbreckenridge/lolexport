@@ -26,4 +26,4 @@ jobs:
           pip install mypy
       - name: Run mypy
         run: |
-          mypy ./lolexport
+          mypy --install-types --non-interactive ./lolexport
