@@ -35,7 +35,7 @@ Combines the results from <https://developer.riotgames.com/apis#match-v4/GET_get
 
 ## Installation
 
-Requires at least `python3.6`
+Requires at least `python3.7`
 
 To install with pip, run:
 
