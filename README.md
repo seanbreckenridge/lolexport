@@ -31,7 +31,7 @@ I'm not sure how far back the match history goes. I've been playing on and off s
 
 Get an API key from [here](https://developer.riotgames.com/) and put it in a JSON file, with the same format as `./api_key_example.json`
 
-Combines the results from <https://developer.riotgames.com/apis#match-v4/GET_getMatchlist> and <https://developer.riotgames.com/apis#match-v4/GET_getMatch>, and dumps all the info to a JSON file.
+Combines the results from `matchlist_by_puuid` and `matches/by-puuid`, and dumps all the info to a JSON file.
 
 ## Installation
 
@@ -91,6 +91,8 @@ See [here](https://developer.riotgames.com/docs/lol) for region codes.
 
 ### Parsing
 
+This command is deprecated, it was used for the v4 API -- v5 now includes the relevant static data
+
 The export above saves all the data, but I'm not interested in tons of the specifics, so `lolexport.parse` is what I'd use, you're free to parse the data however.
 
 ```
@@ -111,4 +113,3 @@ It prints the parsed data to STDOUT, so you can do:
 `python3 -m lolexport parse --from ./data.json > parsed.json`
 
 That removes some of the fields I'm not interested in, and replaces champion/map/queue IDs with their names.
-
