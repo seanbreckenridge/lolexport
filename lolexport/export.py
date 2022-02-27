@@ -70,26 +70,27 @@ def export_data(api_key: str, summoner_name: str, region: str) -> List[Dict[str,
 
 
 def fix_region(region):
-    if (region =="BR1"):
+    region_upper = region.upper()
+    if (region_upper =="BR1"):
         region ="americas"
-    if (region =="EUN1"):
+    if (region_upper =="EUN1"):
         region ="europe"
-    if (region =="EUW1"):
+    if (region_upper =="EUW1"):
         region ="europe"
-    if (region =="JP1"):
+    if (region_upper =="JP1"):
         region ="asia"
-    if (region =="KR"):
+    if (region_upper =="KR"):
         region ="asia"
-    if (region =="LA1"):
+    if (region_upper =="LA1"):
         region ="americas"
-    if (region =="LA2"):
+    if (region_upper =="LA2"):
         region ="americas"
-    if (region =="NA1"):
+    if (region_upper =="NA1"):
         region ="americas"
-    if (region =="OC1"):
+    if (region_upper =="OC1"):
         region ="asia"
-    if (region =="TR1"):
+    if (region_upper =="TR1"):
         region ="europe"
-    if (region =="RU"):
+    if (region_upper =="RU"):
         region ="europe"
     return region
