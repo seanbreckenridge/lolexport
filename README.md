@@ -4,25 +4,31 @@ Exports League of Legends Match History metadata using the RiotGames API
 
 I don't play league of legends that often anymore, this is to export my entire match history so I can do some analysis as part of [`HPI`](https://github.com/seanbreckenridge/HPI). Like:
 
-```python
->>> from my.games.league import history
->>> import pprint, collections
->>> league_game_history = list(history())
-# whats my winrate?
->>> collections.Counter(map(lambda g: g.won, league_game_history))
-Counter({True: 265, False: 241})
-# most common champions?
->>> pprint.pprint(collections.Counter(map(lambda g: g.champion_name, league_game_history)).most_common(10))
-[('Lee Sin', 114),
- ('Yasuo', 29),
- ('Master Yi', 25),
- ('Riven', 20),
- ('Gragas', 19),
- ('Thresh', 13),
- ('Lux', 12),
- ('Twisted Fate', 12),
- ('Rengar', 11),
- ('Bard', 11)]
+```bash
+$ hpi query my.league.export -s | jq '.game_mode' -r | chomp | sort | uniq -c | awk '{print $2 " " $1}' | termgraph | chomp | awk '{print $NF,$0}' | sort -n | cut -f2- -d' ' | tail -n 15
+ODYSSEY   : ▏ 3.00
+ULTBOOK   : ▇▇ 12.00
+GAMEMODEX : ▇▇▇▇▇ 29.00
+NEXUSBLITZ: ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 110.00
+ARAM      : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 159.00
+CLASSIC   : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 203.00
+URF       : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 259.00
+$ hpi query my.league.export -s | jq '.champion' -r | chomp | sort | uniq -c | awk '{print $2 " " $1}' | termgraph | chomp | awk '{print $NF,$0}' | sort -n | cut -f2- -d' ' | tail -n 15
+Poppy       : ▇▇▇▇ 12.00
+Ekko        : ▇▇▇▇ 13.00
+Gnar        : ▇▇▇▇ 13.00
+Vayne       : ▇▇▇▇ 14.00
+Lucian      : ▇▇▇▇▇ 15.00
+Rengar      : ▇▇▇▇▇ 15.00
+Thresh      : ▇▇▇▇▇ 17.00
+TwistedFate : ▇▇▇▇▇ 17.00
+Lux         : ▇▇▇▇▇▇ 18.00
+Bard        : ▇▇▇▇▇▇▇ 23.00
+Riven       : ▇▇▇▇▇▇▇▇ 24.00
+Gragas      : ▇▇▇▇▇▇▇▇▇ 28.00
+MasterYi    : ▇▇▇▇▇▇▇▇▇ 29.00
+Yasuo       : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 67.00
+LeeSin      : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 146.00
 ```
 
 Though, more interesting to me is that this tells me when/how long every match was, which means I can graph my activity.
@@ -42,8 +48,6 @@ To install with pip, run:
     pip install git+https://github.com/seanbreckenridge/lolexport
 
 This is accessible as `lolexport` and using `python3 -m lolexport`
-
----
 
 ## Usage
 
@@ -85,6 +89,35 @@ $ du -h data.json
 ```
 
 See [here](https://developer.riotgames.com/docs/lol) for region codes.
+
+### Merge
+
+Takes multiple JSON files as input and removes loads them into memory, removing duplicates
+
+```
+$ python3 -m lolexport merge -u yourSummonnerName ~/data/league_of_legends/*.json
+[D 220227 04:38:41 merge:152] Skipped 438 items, returning 809 items...
+Python 3.10.2 (main, Jan 15 2022, 19:56:27) [GCC 11.1.0]
+Type 'copyright', 'credits' or 'license' for more information
+IPython 8.1.0 -- An enhanced Interactive Python. Type '?' for help.
+
+Use res to access visit data
+```
+
+```Python
+In [1]: res[0]._serialize()
+Out[1]:
+{'username': 'yourSummonnerName',
+ 'game_id': 3517403685,
+ 'won': False,
+ 'champion': 'Rammus',
+ 'game_started': datetime.datetime(2020, 8, 1, 18, 8, 30, tzinfo=datetime.timezone.utc),
+ 'game_ended': datetime.datetime(2020, 8, 1, 18, 25, 36, tzinfo=datetime.timezone.utc),
+ 'game_mode': 'NEXUSBLITZ'}
+
+In [2]: res[0]
+Out[2]: Game(raw={'gameId': 3517403685, 'champion': {'name': 'Rammus', 'title': 'the Armordillo', 'blurb': 'Idolized by many, dismissed by some, mystifying to all, the curious being Rammus is an enigma. Protected by a spiked shell, he inspires increasingly disparate theories on his origin wherever he goes—from demigod, to sacred oracle, to a mere beast...', 'tags': ['Tank', 'Fighter'], 'partype': 'Mana'}, 'queue': None, 'season': 13, 'role': 'DUO_SUPPORT', 'lane': 'NONE', 'gameCreation': 1596305310886, 'gameDuration': 1026, 'map': 'Nexus Blitz', 'gameMode': 'NEXUSBLITZ'
+```
 
 ### Parsing
 

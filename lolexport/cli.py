@@ -1,11 +1,13 @@
 import json
 from pathlib import Path
+from typing import Sequence
 
 import click
 
 from .log import logger
 from .export import export_data
 from .parse import parse_export
+from .merge import merge_game_histories
 
 
 @click.group()
@@ -64,3 +66,21 @@ def parse(from_: str) -> None:
     """
     parsed_info = list(parse_export(Path(from_)))
     click.echo(json.dumps(parsed_info))
+
+
+@main.command()
+@click.option("-u", "--username", type=str, help="your league summoner name")
+@click.argument(
+    "JSON_FILE",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    required=True,
+    nargs=-1,
+)
+def merge(json_file: Sequence[Path], username: str) -> None:
+    """
+    parse/merge results from multiple JSON files
+    """
+    res = list(merge_game_histories(json_file, username))  # noqa
+    import IPython  # type: ignore[import]
+
+    IPython.embed(header=f"Use {click.style('res', fg='green')} to access visit data")
