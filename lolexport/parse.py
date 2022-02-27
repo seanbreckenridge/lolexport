@@ -33,8 +33,8 @@ class DataDog(NamedTuple):
 
 
 def get_datadog_info(region: str) -> DataDog:
-    l = LolWatcher("<dummy key>")
-    versions = l.data_dragon.versions_for_region(region)
+    lw = LolWatcher("<dummy key>")
+    versions = lw.data_dragon.versions_for_region(region)
     # I did this on:
     # not sure if the interface changes
     # In [8]: datadog_versions
@@ -50,8 +50,8 @@ def get_datadog_info(region: str) -> DataDog:
     logger.debug("requesting data_dragon info...")
 
     # request metadata
-    champion_data = l.data_dragon.champions(datadog_versions["champion"])["data"]
-    map_data = l.data_dragon.maps(datadog_versions["map"])["data"]
+    champion_data = lw.data_dragon.champions(datadog_versions["champion"])["data"]
+    map_data = lw.data_dragon.maps(datadog_versions["map"])["data"]
     queue_resp = requests.get(
         "http://static.developer.riotgames.com/docs/lol/queues.json"
     )

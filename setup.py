@@ -1,7 +1,9 @@
 import io
+from pathlib import Path
 from setuptools import setup, find_packages
 
-requirements = ["click>=7.0", "logzero", "riotwatcher", "backoff"]
+
+requirements = Path("requirements.txt").read_text().splitlines()
 
 # Use the README.md content for the long description:
 with io.open("README.md", encoding="utf-8") as fo:
@@ -23,6 +25,12 @@ setup(
     packages=find_packages(include=[pkg]),
     package_data={pkg: ["py.typed"]},
     install_requires=requirements,
+    extras_require={
+        "testing": [
+            "mypy",
+            "flake8",
+        ]
+    },
     keywords="api",
     entry_points={"console_scripts": ["lolexport = lolexport.cli:main"]},
     classifiers=[

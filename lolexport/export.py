@@ -6,9 +6,12 @@ import backoff  # type: ignore[import]
 
 from .log import logger
 
-# resp[0]
-# 'NA1_4078236924'
+
 def get_matches(lol_watcher: LolWatcher, region: str, my_puuid: str) -> List[str]:
+    """
+    > resp[0]
+    'NA1_4078236924'
+    """
     received_entries: bool = True
     beginIndex: int = 0
     entries: List[str] = []
