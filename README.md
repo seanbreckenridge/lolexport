@@ -92,7 +92,7 @@ See [here](https://developer.riotgames.com/docs/lol) for region codes.
 
 ### Merge
 
-Takes multiple JSON files as input and removes loads them into memory, removing duplicates
+Takes multiple JSON files as input and loads them into memory, removing duplicates
 
 ```
 $ python3 -m lolexport merge -u yourSummonnerName ~/data/league_of_legends/*.json
