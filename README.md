@@ -115,8 +115,8 @@ Out[1]:
  'game_ended': datetime.datetime(2020, 8, 1, 18, 25, 36, tzinfo=datetime.timezone.utc),
  'game_mode': 'NEXUSBLITZ'}
 
-In [2]: res[0]
-Out[2]: Game(raw={'gameId': 3517403685, 'champion': {'name': 'Rammus', 'title': 'the Armordillo', 'blurb': 'Idolized by many, dismissed by some, mystifying to all, the curious being Rammus is an enigma. Protected by a spiked shell, he inspires increasingly disparate theories on his origin wherever he goes—from demigod, to sacred oracle, to a mere beast...', 'tags': ['Tank', 'Fighter'], 'partype': 'Mana'}, 'queue': None, 'season': 13, 'role': 'DUO_SUPPORT', 'lane': 'NONE', 'gameCreation': 1596305310886, 'gameDuration': 1026, 'map': 'Nexus Blitz', 'gameMode': 'NEXUSBLITZ'
+In [2]: res[0].raw
+Out[2]: {'gameId': 3517403685, 'champion': {'name': 'Rammus', 'title': 'the Armordillo', 'blurb': 'Idolized by many, dismissed by some, mystifying to all, the curious being Rammus is an enigma. Protected by a spiked shell, he inspires increasingly disparate theories on his origin wherever he goes—from demigod, to sacred oracle, to a mere beast...', 'tags': ['Tank', 'Fighter'], 'partype': 'Mana'}, 'queue': None, 'season': 13, 'role': 'DUO_SUPPORT', 'lane': 'NONE', 'gameCreation': 1596305310886, 'gameDuration': 1026, 'map': 'Nexus Blitz', 'gameMode': 'NEXUSBLITZ'
 ```
 
 ### Parsing
