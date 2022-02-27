@@ -69,7 +69,9 @@ def parse(from_: str) -> None:
 
 
 @main.command()
-@click.option("-u", "--username", type=str, help="your league summoner name")
+@click.option(
+    "-u", "--username", type=str, help="your league summoner name", required=True
+)
 @click.argument(
     "JSON_FILE",
     type=click.Path(exists=True, dir_okay=False, path_type=Path),
