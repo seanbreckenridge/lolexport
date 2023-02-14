@@ -57,8 +57,16 @@ def export_data(api_key: str, summoner_name: str, region: str) -> List[Dict[str,
     # attach lots of metadata to each match Dict response
     for i, m in enumerate(matches, 1):
         logger.debug(f"[{i}/{len(matches)}] Requesting match_id => {m}")
-        resp = get_match_data(lol_watcher, region, m)
-        # make sure were not overwriting some key from the API
+        # option to continue after a failed game
+        try:
+	    resp = get_match_data(lol_watcher, region, m)
+        except:
+            selection = input("Continue? [y/n]")
+            if selection.lower() == "y":
+                continue
+            break
+
+	# make sure were not overwriting some key from the API
         assert "gameId" not in resp
         resp["gameId"] = m
         data.append(resp)
