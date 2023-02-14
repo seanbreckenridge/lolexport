@@ -3,6 +3,7 @@ from typing import Dict, List, Any
 
 from riotwatcher import LolWatcher, ApiError  # type: ignore[import]
 import backoff  # type: ignore[import]
+import click
 
 from .log import logger
 
@@ -59,12 +60,14 @@ def export_data(api_key: str, summoner_name: str, region: str) -> List[Dict[str,
         logger.debug(f"[{i}/{len(matches)}] Requesting match_id => {m}")
         # option to continue after a failed game
         try:
-	    resp = get_match_data(lol_watcher, region, m)
-        except:
-            selection = input("Continue? [y/n]")
-            if selection.lower() == "y":
+            resp = get_match_data(lol_watcher, region, m)
+        except (Exception, KeyboardInterrupt) as e:
+            if not isinstance(e, KeyboardInterrupt):
+                logger.exception(f"request failed: {e}")
+            if click.confirm("Continue requesting?", default=True):
                 continue
-            break
+            else:
+                break
 
 	# make sure were not overwriting some key from the API
         assert "gameId" not in resp
