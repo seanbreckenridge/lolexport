@@ -43,7 +43,9 @@ def get_match_data(
     return data
 
 
-def export_data(api_key: str, summoner_name: str, region: str) -> List[Dict[str, Any]]:
+def export_data(
+    api_key: str, summoner_name: str, region: str, *, interactive: bool = True
+) -> List[Dict[str, Any]]:
     # get my info
     logger.debug("Getting encrypted account id...")
     lol_watcher = LolWatcher(api_key)
@@ -62,6 +64,8 @@ def export_data(api_key: str, summoner_name: str, region: str) -> List[Dict[str,
         try:
             resp = get_match_data(lol_watcher, region, m)
         except (Exception, KeyboardInterrupt) as e:
+            if not interactive:
+                raise
             if not isinstance(e, KeyboardInterrupt):
                 logger.exception(f"request failed: {e}")
             if click.confirm("Continue requesting?", default=True):
@@ -69,7 +73,7 @@ def export_data(api_key: str, summoner_name: str, region: str) -> List[Dict[str,
             else:
                 break
 
-	# make sure were not overwriting some key from the API
+        # make sure were not overwriting some key from the API
         assert "gameId" not in resp
         resp["gameId"] = m
         data.append(resp)

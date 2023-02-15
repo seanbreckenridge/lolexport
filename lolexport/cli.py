@@ -26,9 +26,17 @@ def main():
     required=True,
     help="json file with api key",
 )
+@click.option(
+    "--interactive/--non-interactive",
+    default=True,
+    is_flag=True,
+    help="interactive - if a request fails, prompts you to continue. In non-interactive mode, fails if theres a network error",
+)
 @click.option("--username", "-u", required=True, help="league of legends summoner name")
 @click.option("--region", "-r", required=True, help="league of legends region name")
-def export(to: str, api_key_file: str, username: str, region: str) -> None:
+def export(
+    to: str, api_key_file: str, username: str, region: str, interactive: bool
+) -> None:
     """
     Download all of your match history
     """
@@ -41,7 +49,7 @@ def export(to: str, api_key_file: str, username: str, region: str) -> None:
         api_key: str = json.load(f)["api_key"]
 
     # download all the data
-    data = export_data(api_key, username, region)
+    data = export_data(api_key, username, region, interactive=interactive)
 
     # write to file
     with p.open("w") as dump_f:
