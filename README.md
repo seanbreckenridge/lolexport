@@ -46,7 +46,7 @@ This is accessible as `lolexport` and using `python3 -m lolexport`
 
 ## Usage
 
-Theres 2 commands here, `export` (which does the majority of the work, exporting info from your matches to a JSON file) and then `parse` which takes that as input and extracts (what I consider to be) useful data from it.
+There's 2 commands here, `export` (which does the majority of the work, exporting info from your matches to a JSON file) and then `parse` which takes that as input and extracts (what I consider to be) useful data from it.
 
 ### Export
 

@@ -30,7 +30,7 @@ def main():
     "--interactive/--non-interactive",
     default=True,
     is_flag=True,
-    help="interactive - if a request fails, prompts you to continue. In non-interactive mode, fails if theres a network error",
+    help="interactive - if a request fails, prompts you to continue. In non-interactive mode, fails if there's a network error",
 )
 @click.option("--username", "-u", required=True, help="league of legends summoner name")
 @click.option("--region", "-r", required=True, help="league of legends region name")
